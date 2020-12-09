@@ -1,0 +1,173 @@
+                                Python socket programming API
+
+python3 program.py  # run the program
+
+# needed imports
+import socket
+import struct
+import pickle       # can send/receive arrays as well
+import os           # for fork
+import threading    # for threads
+import time
+import signal
+import select
+
+data = pickle.dumps([])                # transform array in bytes to send over the network
+recvArray = pickle.loads(revcData)     # get the array from the received bytes
+time.sleep(seconds)                    # if you want to send something from time to time (seconds)
+
+------------------------------------------  TCP ----------------------------------------------
+
+
+CLIENT
+
+s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)  # create socket
+
+s.connect(("localhost",2222))                         # set socket connection
+
+s.send(data)                                          # send data (endoded)
+
+newData = s.recv(555)                                 # receive data from server (endoded)
+
+recvStr = data.decode()                               # decode received string
+
+s.close()                                             # close socket
+
+try:
+        s = socket.create_connection(('0.0.0.0',1234))   # create + set socket connection
+except socket.error as msg:
+        print("Error: ",msg.strerror)
+        exit(-1)
+
+s.sendall(struct.pack('!I',my_num))                   # met 2 for sending integer
+
+word.encode()   # only send encoded string
+
+r,w,e = select.select([0,s],[],[])                    # MULTIPLEXING - check for ready fds
+
+if 0 in r: 
+    # we can get std user input
+if s in r:
+    # we can read from socket
+
+
+SERVER
+
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)   # create socket
+
+s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) # to reuse the socket address in case of abrupt shutdown
+
+s.settimeout(10)                                        # wait only 10 seconds for accept, then throw socket.timeout
+
+s.bind(("0.0.0.0",2222))                                # bind an ip and a port for the server
+
+s.listen(7)                                             # start listening for clients, max 7 in the queue
+
+while(True)                                             # the server starts running
+    
+    try:
+        clSock, addr = s.accept()                           # a new socket was created for the client that connected
+    except socket.timeout:
+        print("10 seconds passed with no accept")
+        time_ended = true
+    
+    print("+ selectserver: new connection from {} on socket {}".format(clSock.getpeername(), clSock.getsockname()))
+    
+    # option 1: fork to create a new child process
+    newpid = os.fork()
+        if newpid == 0:
+            child(clSock)
+            os._exit(0)
+        else:
+            pids = (os.getpid(), newpid)
+            print("parent: %d, child: %d" % pids)
+            pid, status = os.wait()    # wait for the child to end 
+            print(status,(status>>8))  # return code by the child
+
+    # option 2: use threading to create new threads
+
+    t = threading.Thread(target=worker,args=(clSock,))  
+    t.start()                                          # threading.get_ident() to get the id of the created thread
+
+    # option 3: make it non-concurrent
+
+    recvData = clSock.recv(555)                        # receive the bytes from the client (encoded)
+
+    clSock.send(data)                                  # send the encoded data to the client
+
+    clSock.close()                                     # close the client socket
+
+
+clSock.sendall(bytes(message,'ascii'))             # met 2 for sending a string
+ 
+cnumber = cs.recv(4)                               # met 2 for receiving an integer
+cnumber = struct.unpack('!I',cnumber)[0]
+
+
+res = s.send(struct.pack("!H", a))                 # pack the value of a as a short int (16 bits) in network representation
+
+c = struct.unpack('!H',c)                          # unpack the content read from the network into a short int
+print(c[0].__format__('d'))                        # and convert from network representation back to host
+
+
+
+
+------------------------------------------  UDP ----------------------------------------------
+
+
+CLIENT
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # create socket
+
+s.sendto("message", ("127.0.0.1",8888))               # send the message/encoded string to the specified IP and port
+
+result, address = s.recvfrom(222)                     # get the encoded result and the address of the sender
+
+int(result)  # if a number was sent to the client
+
+
+try:
+    s.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)   # BROADCAST set in sender   
+except socket.error:                                          # s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) 
+    print("Error on broadcast option")                        # needs to be set in receiver
+    exit(-1)
+s.sendto("Hello all!".encode(), ("192.168.1.255",5555))
+
+
+SERVER
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)  # create server socket
+
+s.bind(("0.0.0.0",8888))                              # let everyone connect to the server
+
+data, addr = s.recvfrom(222)                          # get encoded data from the client and the address/socket of the client
+
+s.sendto(data, addr)                                  # send the encoded data back to the client
+
+
+
+------------------------------------------------------------------------------------------------
+
+signal.signal(signal.SIGINT, signal_handler)
+
+def signal_handler(sig, frame):
+	print("\nYou stopped the program, have a nice day! :)")
+	exit(0)
+
+	
+cmdStrA = cmdStr.split()                                            # run given command in python, and get the output
+try:
+        result = subprocess.run(cmdStrA, stdout=subprocess.PIPE)
+except Exception as e:
+        print("Command execution error -",str(e))
+        cs.send(str(e).encode('utf8'))
+        os._exit(1)
+    
+cs.sendall(result.stdout)                                           # send the output of the command to the network
+    
+randomFloat = round(random.uniform(0.0, 100.0),2)
+
+http://www.cs.ubbcluj.ro/~radu.dragos/examples/#Socket_Programming
+
+https://realpython.com/python-sleep/
+
