@@ -12,11 +12,14 @@
 	- 193.231.20.2 is in city Bucharest, building Google (at least 1km away from other buildings in Bucharest)
 
 - the links between R1-R2-R3 are serial links
-- all routers have DHCP configured
-- R2 also has NAT configured for accessing the Internet server 193.231.20.2
+- routers have DHCP configured where it's needed
+- R0 also has NAT configured for accessing the Internet server 193.231.20.2
 
-![alt text](https://github.com/StefanCsPurge/Computer-Networks/blob/main/PachetTracer%20Project_2%20Physical%20Location%20CJ%20B/Logical-Network-CJ-B.png)
+Requirements:
+1.   Be able to access the Internet Server 193.231.20.2 from all networks (NAT)
+2.   Be able to access all private LANs from each other – but not from Internet (no router in Internet routes the Private IP address space)
+3.   Use RIP to setup routing between (192.168.0.0/24, 192.168.1.0/24, 192.168.2.0/24, 192.168.3.0/24). Do not advertise private networks on the Internet links
 
-![alt text](https://github.com/StefanCsPurge/Computer-Networks/blob/main/PachetTracer%20Project_2%20Physical%20Location%20CJ%20B/Country-Physical-Network.png)
+![alt text](https://github.com/StefanCsPurge/Computer-Networks/blob/main/PacketTracer%20Project_3%20RIP%2CNAT%2CPhysical%2CCloud/Logical-Topology.png)
 
-![alt text](https://github.com/StefanCsPurge/Computer-Networks/blob/main/PachetTracer%20Project_2%20Physical%20Location%20CJ%20B/CJ-Physical-Network.png)
+![alt text](https://github.com/StefanCsPurge/Computer-Networks/blob/main/PacketTracer%20Project_3%20RIP%2CNAT%2CPhysical%2CCloud/Physical.png)
